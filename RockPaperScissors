@@ -1,0 +1,130 @@
+import java.util.InputMismatchException;
+import java.util.Scanner;
+public class RockPaperScissors {
+	private String playerName;
+	private String numberOfRounrds;
+	Scanner sc = new Scanner(System.in);
+	
+	public RockPaperScissors(String _playerName, String _numberOfRounds) {
+		setPlayerName(_playerName);
+		setNumberOfRounds(_numberOfRounds);
+	}
+
+	private void setPlayerName(String _playerName) {this.playerName = _playerName;}
+
+	private void setNumberOfRounds(String _numberOfRounds) {this.numberOfRounrds = _numberOfRounds;}
+	
+	public String getPlayerName() {return this.playerName;}
+	
+	public String getNumberOfRounds() {return this.numberOfRounrds;}
+	
+	public String game() {
+
+		int numOfRounds = Integer.parseInt(getNumberOfRounds());	
+		System.out.println("hi! " + getPlayerName());
+		while(true) {
+			int counterPlayer = 0, counterCpu = 0;
+			try {
+				for (int i = 1; i <= numOfRounds; i++) {
+					System.out.println("Round Number: "+ i + " of "+numOfRounds);
+					System.out.println("For stone Press: '1' ");
+					System.out.println("For Paper Press: '2' ");
+					System.out.println("For Scissors Press: '3' ");
+					int value = sc.nextInt();
+					if(value == 1 || value == 2 || value == 3) {
+						int cpuValue = random();
+						if(value == 1 && cpuValue == 2) {
+							counterCpu++;
+							System.out.println(this.playerName+" with stone and CPU with Paper"+"\n"+counterPlayer +" - " + counterCpu);
+						}
+						if(value == 1 && cpuValue == 3 ) {
+							counterPlayer++;
+							System.out.println(this.playerName+" with stone and CPU with Scissors"+"\n"+counterPlayer +" - " + counterCpu);
+						}
+						if(value == 2 && cpuValue == 1) {
+							counterPlayer++;
+							System.out.println(this.playerName+" with Paper and CPU with stone"+"\n"+counterPlayer +" - " + counterCpu);
+						}
+						if(value == 2 && cpuValue == 3) {
+							counterCpu++;
+							System.out.println(this.playerName+" with Paper and CPU with Scissors"+"\n"+counterPlayer +" - " + counterCpu);
+
+						}
+						if(value == 3 && cpuValue == 1) {
+							counterCpu++;
+							System.out.println(this.playerName+" with Scissors and CPU with stone"+"\n"+counterPlayer +" - " + counterCpu);
+
+						}
+						if(value == 3 && cpuValue == 2) {
+							counterPlayer++;
+							System.out.println(this.playerName+" with Scissors and CPU with Paper"+"\n"+counterPlayer +" - " + counterCpu);
+						}
+						if(value == cpuValue) {
+							i--;
+							System.out.println("try again, you both have the same Value ;) ");
+						}
+						
+						
+					}
+					else
+					throw new IllegalArgumentException();
+				}
+			}catch(IllegalArgumentException e) {
+				System.out.println("wrong value, the game Starting from the beginning.\n");
+				continue;
+			}catch(InputMismatchException e) {
+				sc.next();
+				System.err.println("wrong input, try again");
+				continue;
+			}
+			if(counterPlayer < counterCpu)
+				return "The winner is: CPU! with "+counterCpu+" Points! \n and " + this.playerName +" with " +counterPlayer +" Points!";
+			if(counterPlayer > counterCpu)
+				return "The winner is: " + this.playerName + " with "+counterPlayer+" Points! \n and CPU! with " +counterCpu +" Points!";
+			if(counterPlayer == counterCpu) 
+				return " Congratulations! The game ends in a draw!\n"  + this.playerName + " with "+counterPlayer+" Points! \n and CPU! with " +counterCpu +" Points!";
+		}
+		
+	}
+	
+	public int random() {
+		return (int) (1+Math.random()*3);
+	}
+
+}
+
+
+
+
+import java.util.Scanner;
+public class Runnder {
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		String name, rounds;
+		
+		System.out.println("Wellcome to Rock Paper and Scissors game! ");
+		System.out.println("please Enter your name: ");
+		name = sc.next();
+		System.out.println("now, please Enter num of rounds you want: ");
+		rounds = sc.next();
+		
+		RockPaperScissors rockPS = new RockPaperScissors(name, rounds);
+		System.out.println(rockPS.game());
+		
+
+		
+		
+		
+		sc.close();
+		
+		
+
+	}
+
+}
+
+
+
+
+
